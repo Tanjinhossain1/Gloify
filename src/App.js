@@ -1,6 +1,12 @@
 import logo from './logo.svg';
 import './App.css';
 
+// const { isLoading, error, data } = useQuery('repoData', () =>
+//      fetch('https://api.github.com/repos/tannerlinsley/react-query').then(res =>
+//        res.json()
+//      )
+//    )
+
 function App() {
   return (
     <div className="App">
