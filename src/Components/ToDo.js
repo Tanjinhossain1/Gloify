@@ -1,21 +1,16 @@
 import React, { useState } from 'react';
-import { useQuery } from 'react-query';
 import CreateToDo from './CreateToDo';
+import useTask from './hooks/useTask';
 import ToDoDetail from './ToDoDetail';
 
 const ToDo = () => {
     const [openModal,setOpenModal] = useState(false);
-    const { isLoading, error, data: allToDo } = useQuery('allToDo', () =>
-     fetch('http://localhost:5000/allToDo').then(res =>
-       res.json()
-     )
-   )
-   if(isLoading){
-    return <div className='flex justify-center mt-32'><button class="btn btn-square loading"></button></div>
-   }
+    const [allToDo,refetch] = useTask()
    const date = new Date();
    const today = date.getDate();
-   const allTodayToDo = allToDo.filter(t=>t.date.include(today))
+
+       const allTodayToDo = allToDo.filter(t=>t.today===today)
+   
     return (
         <div>
             <h1 className='text-3xl font-bold'>TODAY</h1>
@@ -27,12 +22,12 @@ const ToDo = () => {
             </label>
             </div>
             {
-                openModal && <CreateToDo />
+                openModal && <CreateToDo refetch={refetch} />
             }
             <div>
                 <div>
                     {
-                        allTodayToDo.map(toDo=><ToDoDetail toDo={toDo} key={toDo._id} />)
+                        allTodayToDo.map(toDo=><ToDoDetail refetch={refetch} toDo={toDo} key={toDo._id} />)
                     }
                 </div>
             </div>

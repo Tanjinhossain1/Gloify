@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 
-const CreateToDo = () => {
+const CreateToDo = ({refetch}) => {
     const createToDo = (event) =>{
         event.preventDefault();
         const task = event.target.task.value;
@@ -17,6 +17,8 @@ const CreateToDo = () => {
         })
         .then(res=>res.json())
         .then(data=>{
+            event.target.reset()
+            refetch()
             console.log(data)
         })
     }
