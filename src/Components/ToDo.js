@@ -5,7 +5,7 @@ import ToDoDetail from './ToDoDetail';
 
 const ToDo = () => {
     const [openModal,setOpenModal] = useState(false);
-    const [allToDo,refetch] = useTask()
+    const {allToDo,refetch} = useTask()
    const date = new Date();
    const today = date.getDate();
 

@@ -3,7 +3,7 @@ import useTask from './hooks/useTask';
 import ToDoDetail from './ToDoDetail';
 
 const AllTask = () => {
-   const [allToDo,refetch] = useTask()
+   const {allToDo,refetch} = useTask()
     return (
         <div>
             {

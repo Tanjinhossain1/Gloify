@@ -1,26 +1,26 @@
-import React, { useState } from 'react';
+import React from 'react';
 
-const CreateToDo = ({refetch}) => {
-    const createToDo = (event) =>{
+const CreateToDo = ({ refetch }) => {
+    const createToDo = (event) => {
         event.preventDefault();
         const task = event.target.task.value;
         const category = event.target.category.value;
         const date = new Date();
         const today = date.getDate();
-        const toDoDetail = {task,category,today}
-        fetch('http://localhost:5000/createToDo',{
-            method:'POST',
-            headers:{
-                'content-type':'application/json'
+        const toDoDetail = { task, category, today }
+        fetch(' https://infinite-springs-80402.herokuapp.com/createToDo', {
+            method: 'POST',
+            headers: {
+                'content-type': 'application/json'
             },
             body: JSON.stringify(toDoDetail)
         })
-        .then(res=>res.json())
-        .then(data=>{
-            event.target.reset()
-            refetch()
-            console.log(data)
-        })
+            .then(res => res.json())
+            .then(data => {
+                event.target.reset()
+                refetch()
+                console.log(data)
+            })
     }
     return (
         <div>
@@ -46,9 +46,9 @@ const CreateToDo = ({refetch}) => {
                                 <option>Office</option>
                             </select>
                         </div>
-                       <div className='w-3/4 mx-auto'>
-                         <input class="btn btn-outline btn-primary w-full mt-4" type='submit' value='Add Task' />
-                       </div>
+                        <div className='w-3/4 mx-auto'>
+                            <input class="btn btn-outline btn-primary w-full mt-4" type='submit' value='Add Task' />
+                        </div>
 
                     </form>
                     <div class="modal-action">
