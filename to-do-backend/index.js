@@ -19,12 +19,67 @@ async function run() {
     try {
         await client.connect();
         const toDoCollection = client.db("allToDo").collection("toDo");
-        app.get('/check',(req,res)=>{
-            res.send('wow it is work todo')
+        const userCollection = client.db("users").collection("user");
+
+
+        // to-do app for ielts company
+        app.put('/user/:id', async (req, res) => {
+            const id = req.params.id;
+            const filter = { _id: ObjectId(id) }
+            console.log(filter)
+            const options = { upsert: true };
+           const detail = req.body;
+
+            const updateDoc = {
+                $set: {
+                    userName: detail.userName,
+                    password: detail.password
+                },
+            };
+            const result = await userCollection.updateOne(filter, updateDoc, options);
+            res.send(result)
         })
+        app.get('/user', async (req, res) => {
+            const user = await userCollection.find().toArray();
+            res.send(user)
+        })
+
+        app.post('/createToDo', async (req, res) => {
+            const toDoDetail = req.body;
+            console.log('toDoDetail', toDoDetail)
+            const result = await toDoCollection.insertOne(toDoDetail);
+            res.send(result)
+        })
+        
+        app.delete('/deleteToDo/:id', async (req, res) => {
+            const id = req.params.id;
+            console.log(id)
+            const query = { _id: ObjectId(id) };
+            const result = await toDoCollection.deleteOne(query);
+            res.send(result)
+        })
+        app.put('/finishTask/:id', async (req, res) => {
+            const id = req.params.id;
+            const filter = { _id: ObjectId(id) }
+            console.log(filter)
+            const options = { upsert: true };
+           
+            const updateDoc = {
+                $set: {
+                    finishTask: 'saved'
+                },
+            };
+            const result = await toDoCollection.updateOne(filter, updateDoc, options);
+            res.send(result)
+        })
+        app.get('/allToDo', async (req, res) => {
+            const allToDo = await toDoCollection.find().toArray();
+            res.send(allToDo)
+        })
+       
     }
-    finally { }
-}
+        finally { }
+    }
 
 run().catch(console.dir())
 
